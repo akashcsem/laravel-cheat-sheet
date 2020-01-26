@@ -15,32 +15,32 @@ See the snapshot bellow.
 
 ## Write the code into `User.php` file
 
-<code style="background:red">
+<code>
   <?php
-      namespace App\Cache;
+  namespace App\Cache;
 
-      use App\User;
-      use Carbon\Carbon;
+  use App\User;
+  use Carbon\Carbon;
 
-      class Users
-      {
-            const CACHE_KEY = 'USERS';
+  class Users
+  {
+        const CACHE_KEY = 'USERS';
 
-            public function all($orderBy)
-            {
-                  $key = "all.{$orderBy}";
-                  $cacheKey = $this->getCacheKey($key);
-                  return cache()->remember($cacheKey, Carbon::now()->addMinutes(5), function () use ($orderBy) {
-                        return User::orderBy($orderBy)->get();
-                  });
-            }
+        public function all($orderBy)
+        {
+              $key = "all.{$orderBy}";
+              $cacheKey = $this->getCacheKey($key);
+              return cache()->remember($cacheKey, Carbon::now()->addMinutes(5), function () use ($orderBy) {
+                    return User::orderBy($orderBy)->get();
+              });
+        }
 
-            public function getCacheKey($key)
-            {
-                  $key = strtoupper($key);
-                  return self::CACHE_KEY . "$key";
-            }
-      }
+        public function getCacheKey($key)
+        {
+              $key = strtoupper($key);
+              return self::CACHE_KEY . "$key";
+        }
+  }
   
 </code>
 
