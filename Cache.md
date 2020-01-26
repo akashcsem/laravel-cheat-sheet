@@ -13,15 +13,39 @@ See the snapshot bellow.
   <img src="images/users.PNG" width="600" height="220">
 </p>
 
+<code>
+<?php
 
+namespace App\Cache;
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+use App\User;
+use Carbon\Carbon;
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+class Users
+{
+      const CACHE_KEY = 'USERS';
 
-## Laravel Sponsors
+      public function all($orderBy)
+      {
+            $key = "all.{$orderBy}";
+            $cacheKey = $this->getCacheKey($key);
+            return cache()->remember($cacheKey, Carbon::now()->addMinutes(5), function () use ($orderBy) {
+                  return User::orderBy($orderBy)->get();
+            });
+      }
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+      public function get($id)
+      {
+      }
+
+      public function getCacheKey($key)
+      {
+            $key = strtoupper($key);
+            return self::CACHE_KEY . "$key";
+      }
+}
+</code>
+
 
 - **[Vehikl](https://vehikl.com/)**
 - **[Tighten Co.](https://tighten.co)**
