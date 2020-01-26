@@ -15,8 +15,8 @@ See the snapshot bellow.
 
 ## Write the code into `User.php` file
 
-<code>
-<?php
+  <code>
+  <?php
   namespace App\Cache;
 
   use App\User;
