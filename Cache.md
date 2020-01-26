@@ -10,7 +10,7 @@
 
 See the snapshot bellow.
 <p align="left">
-  <img src="images/users.PNG" width="600" height="220">
+  <img src="images/users.PNG" width="500" height="220">
 </p>
 
 ## Write the code into `User.php` file
@@ -43,6 +43,28 @@ See the snapshot bellow.
               return self::CACHE_KEY . "$key";
         }
   }
+```
+
+<p align="left">
+  <img src="images/cache-controller.PNG" width="600" height="300">
+</p>
+- Go to HomeController and write the code.
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Facades\App\Cache\Users;
+
+class HomeController extends Controller
+{
+    public function home()
+    {
+        $users = Users::all('name');
+        return view('home', compact('users'));
+    }
+}
 ```
 
 
