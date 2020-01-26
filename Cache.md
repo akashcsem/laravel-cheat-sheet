@@ -14,9 +14,9 @@ See the snapshot bellow.
 </p>
 
 ## Write the code into `User.php` file
-
-  <code>
+```
   <?php
+  
   namespace App\Cache;
 
   use App\User;
@@ -41,6 +41,6 @@ See the snapshot bellow.
               return self::CACHE_KEY . "$key";
         }
   }
-</code>
+```
 
 
