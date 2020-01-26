@@ -14,7 +14,9 @@ See the snapshot bellow.
 </p>
 
 ## Write the code into `User.php` file
-```
+
+
+```php
   <?php
   
   namespace App\Cache;
