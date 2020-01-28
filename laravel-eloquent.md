@@ -4,6 +4,86 @@
 
 
 # Laravel Eloquent
+
+- Insert data
+```php
+    $flight = App\Flight::create(['name' => 'Flight 10']);
+    or 
+    $flight->fill(['name' => 'Flight 22']);
+    
+    // Retrieve flight by name, or create it if it doesn't exist...
+    $flight = App\Flight::firstOrCreate(['name' => 'Flight 10']);
+    
+    // Retrieve flight by name, or create it with the name, delayed, and arrival_time attributes...
+    $flight = App\Flight::firstOrCreate(
+        ['name' => 'Flight 10'],
+        ['delayed' => 1, 'arrival_time' => '11:30']
+    );
+    
+    // Retrieve by name, or instantiate...
+    $flight = App\Flight::firstOrNew(['name' => 'Flight 10']);
+    
+    // Retrieve by name, or instantiate with the name, delayed, and arrival_time attributes...
+    $flight = App\Flight::firstOrNew(
+        ['name' => 'Flight 10'],
+        ['delayed' => 1, 'arrival_time' => '11:30']
+    );
+```
+
+
+- Select specific columns
+```php
+  $products = Product::select('name', 'id', 'code')->get();
+```
+- Select first item/Select only one item
+```php
+  $products = Product::where('price', '=', 100)->first();
+```
+- Find item by id
+```php
+  $products = Product::find(1);
+```
+
+- Use where clause
+```php
+  $products = Product::where('price', '=', 100)->get();
+  $products = Product::where('price', '<', 100)->get();
+  $products = Product::where('price', '>', 100)->get();
+  $products = Product::where('price', '>=', 100)->get();
+  $products = Product::where('price', '<=', 100)->get();
+  $products = Product::where('price', 'like', 100)->get();
+  $products = Product::whereDate('created_at', '<=', $request->to_date);
+```
+
+- use whereIn
+  <p> search multiple value in a column </p>
+  ```php
+      $purchases Purchase::whereIn('company_id', [1,2,4,8,12,20]);
+  ```
+
+- Use multiple where clause
+  <p>Multiple where clause is act as and operator</p>
+```php
+  $products = Product::where('price', '<', 100)->where('category_id', '=', 2)->get();
+  or
+  $products = Product::where([
+    ['column_1', '=', 'value_1'],
+    ['column_2', '<>', 'value_2'],
+    [COLUMN, OPERATOR, VALUE]
+  ]);
+```
+- Where and orWhere
+  <p>(gender = 'Male' and age >= 18) or (gender = 'Female' and age >= 65)</p>
+
+```php 
+  $q->where(function ($query) {
+      $query->where('gender', 'Male')
+          ->where('age', '>=', 18);
+  })->orWhere(function($query) {
+      $query->where('gender', 'Female')
+          ->where('age', '>=', 65);	
+  })
+```
 - Get data with pagination
 ```php
   $posts = Post::paginate(30);
@@ -52,6 +132,10 @@
 
 
 ```php
+  GoodsRequisitionDetails::groupBy('item_id')
+            ->selectRaw('sum(quantity) as sum_quantity, item_id')
+            ->get();
+            
   $purchases = Purchase::withCount([
 'purchase_details AS detail' => function ($query) {
             $query->select(DB::raw("SUM(quantity) as totalQty"));
@@ -71,6 +155,14 @@
   # In blade/view
   {{ optional($purchase->purchase_details->first())->totalQty }}
 ```
+
+- Sum of two multiplied column
+```php
+    $data = Stock::whereDate('date', '<', Carbon::parse($from_date)->format('Y-m-d'))->get();
+    $credit_amount = $data->sum(function($t){
+        return $t->credit_qty * $t->credit_rate;
+    });
+ ```
 
 
 
