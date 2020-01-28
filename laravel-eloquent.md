@@ -60,6 +60,12 @@
   ```php
       $purchases Purchase::whereIn('company_id', [1,2,4,8,12,20]);
   ```
+  
+  - use wherebetween
+  <p> Compare value between two value </p>
+  ```php
+      $outWork = OutsideWork::whereBetween('date', [$from,$to])->get();
+  ```
 
 - Use multiple where clause
   <p>Multiple where clause is act as and operator</p>
