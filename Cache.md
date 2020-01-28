@@ -13,7 +13,7 @@ See the snapshot bellow.
   <img src="images/users.PNG" width="500" height="220">
 </p>
 
-## Write the code into `User.php` file
+## Write the code into `Users.php` file
 
 
 ```php
